@@ -1,0 +1,33 @@
+---
+- name: Adding docker repo
+  include_role:
+  ¦ name: docker-add-repo
+
+- name: Uninstall old Docker packages {{ packages }}
+  yum:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+    - docker
+    - docker-client
+    - docker-client-latest
+    - docker-common
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-logrotate
+    - docker-engine
+
+
+- name: Install Docker Ce {{ packages }}
+  yum:
+  ¦ name: "{{ packages }}"
+  ¦ state: present
+  vars:
+  ¦ packages:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+
+

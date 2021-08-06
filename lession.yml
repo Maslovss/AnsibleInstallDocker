@@ -1,0 +1,8 @@
+---
+- hosts: all
+  vars:
+    - delete_docker_data: false
+  roles:
+    - docker-remove
+    - docker-install
+
