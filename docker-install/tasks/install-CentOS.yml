@@ -3,12 +3,12 @@
   include_role:
     name: docker-add-repo
 
-- name: Uninstall Docker packages {{ packages }} 
+- name: Uninstall Docker packages {{ packages_delete }} 
   yum:
-    name: "{{ packages }}"
+    name: "{{ packages_delete }}"
     state: absent
   vars:
-    packages:
+    packages_delete:
     - docker 
     - docker-client
     - docker-client-latest
@@ -18,3 +18,12 @@
     - docker-logrotate
     - docker-engine
 
+- name: Installing Docker Ce
+  yum:
+    name: "{{ packages_install }}"
+    state: present
+  vars:
+    packages_install:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
