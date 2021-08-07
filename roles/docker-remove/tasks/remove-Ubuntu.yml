@@ -23,7 +23,3 @@
     - /var/lib/docker/
     - /var/lib/containerd/
   when: delete_docker_data|bool == true 
-- name: Disable service Docker
-  service:
-    name: docker
-    enabled: no
