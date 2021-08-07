@@ -1,0 +1,11 @@
+---
+# tasks file for docker-install
+- name: OS falimy
+  debug:
+    msg: "os fam={{ ansible_os_family }}  ansible_distribution = {{  ansible_distribution}}"
+
+- include_tasks: remove-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu' and delete_docker|bool == true
+
+- include_tasks: remove-CentOS.yml
+  when: (ansible_os_family == 'CentOS' or ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky')  and delete_docker|bool == true

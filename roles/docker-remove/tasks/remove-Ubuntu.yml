@@ -1,0 +1,29 @@
+---
+- name: Uninstall Docker packages {{ packages }}
+  apt:
+    name: "{{ packages }}"
+    force: yes
+    state: absent
+  vars:
+    packages:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: Delete docker-compose
+  file:
+    path: /usr/local/bin/docker-compose
+    state: absent
+
+- name: Delete ALL docker data Delete data = {{ delete_docker_data }}  
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - /var/lib/docker/
+    - /var/lib/containerd/
+  when: delete_docker_data|bool == true 
+- name: Disable service Docker
+  service:
+    name: docker
+    enabled: no

@@ -1,0 +1,45 @@
+---
+- name: Install aptitude using apt
+  apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+- name: apt-get update
+  apt:
+    update_cache: yes
+
+- name: Install
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl 
+      - gnupg 
+      - lsb-release
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Install repo
+  shell: echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- name: Install Docker packages  docker-ce 
+  apt: update_cache=yes name=docker-ce state=latest
+  ignore_errors: yes
+
+- name: Install Docker packages  docker-ce 
+  apt: update_cache=yes name=docker-ce state=latest
+
+- name: Install Docker packages  docker-ce-cl
+  apt: update_cache=yes name=docker-ce-cli state=latest
+
+- name: Install Docker packages  containerd.io 
+  apt: update_cache=yes name=containerd.io state=latest
+
+- name: Install Docker compose
+  shell: curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
+  args:
+    creates: /usr/local/bin/docker-compose

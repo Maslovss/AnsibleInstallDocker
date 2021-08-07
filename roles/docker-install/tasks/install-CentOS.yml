@@ -1,0 +1,39 @@
+---
+- name: Adding docker repo
+  include_role:
+    name: docker-add-repo
+
+- name: Uninstall Docker packages {{ packages_delete }} 
+  yum:
+    name: "{{ packages_delete }}"
+    state: absent
+  vars:
+    packages_delete:
+    - docker 
+    - docker-client
+    - docker-client-latest
+    - docker-common
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-logrotate
+    - docker-engine
+
+- name: Installing Docker Ce
+  yum:
+    name: "{{ packages_install }}"
+    state: latest
+  vars:
+    packages_install:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - curl
+- name: Install Docker-compose
+  shell: curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  args:
+    creates: /usr/local/bin/docker-compose
+- name: Enable Docker service
+  service:
+    name: docker
+    enabled: yes
+

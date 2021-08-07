@@ -1,12 +1,12 @@
 ---
 - hosts: aws
   vars:
-    - delete_docker: false
-    - delete_docker_data: false
+    - delete_docker: true
+    - delete_docker_data: true
     - perform_reboot: true
     - run_jenkins: true
   roles:
-#    - docker-remove
+    - docker-remove
     - docker-install
 #    - reboot_and_start_jenkins
 
