@@ -1,10 +1,10 @@
 ---
-- hosts: locals
+- hosts: aws
   vars:
-    - delete_docker: false
-    - delete_docker_data: false
-    - install_docker: false
-    - perform_reboot: false
+    - delete_docker: true
+    - delete_docker_data: true
+    - install_docker: true
+    - perform_reboot: true
     - jenkins_run_container: true
     - jenkins_image_name: "jenkins/jenkins:latest"
     - jenkins_folder: "/var/jenkins"
