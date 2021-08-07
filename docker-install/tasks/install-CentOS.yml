@@ -21,9 +21,19 @@
 - name: Installing Docker Ce
   yum:
     name: "{{ packages_install }}"
-    state: present
+    state: latest
   vars:
     packages_install:
       - docker-ce
       - docker-ce-cli
       - containerd.io
+      - curl
+- name: Install Docker-compose
+  shell: curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  args:
+    creates: /usr/local/bin/docker-compose
+- name: Enable Docker service
+  service:
+    name: docker
+    enabled: yes
+
