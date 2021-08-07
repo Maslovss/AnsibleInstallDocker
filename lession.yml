@@ -1,6 +1,7 @@
 ---
 - hosts: all
   vars:
+    - delete_docker: false
     - delete_docker_data: false
   roles:
     - docker-remove
