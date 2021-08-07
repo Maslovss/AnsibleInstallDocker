@@ -1,0 +1,5 @@
+---
+# defaults file for start_jenkins
+jenkins_image_name: jenkins
+jenkins_folder:  /var/jenkins
+

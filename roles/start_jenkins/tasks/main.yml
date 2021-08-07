@@ -1,0 +1,51 @@
+---
+# tasks file for start_jenkins
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Pull Jenkins docker image 
+  docker_image:
+    name: "{{  jenkins_image_name }}"
+    source: pull
+
+- name: Check Jenkins folder
+  file:
+    path: "{{ jenkins_folder }}"
+    mode: 0777
+    state: directory
+
+- name: Waining for system ready
+  pause:
+    seconds: 10
+
+- name: Start Jenkins container
+  docker_container:
+    name: jenkins-local
+    image: "{{ jenkins_image_name }}"
+    state: started
+    recreate: yes
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - "{{ jenkins_folder }}:/var/jenkins_home:rw"
+
+- name: Waining for Jenkins init
+  pause:
+    seconds: 20
+
+- name: Check jenkins secret file
+  stat:
+    path: "{{ jenkins_folder }}/secrets/initialAdminPassword"
+  register: stat_result
+
+- name: Set vars
+  shell: cat "{{ jenkins_folder }}/secrets/initialAdminPassword"
+  register: cat_content_file
+
+- name:  "Jenkins secret is: {{ cat_content_file.stdout_lines }}"
+  set_fact:
+    fact: 1
+  when: stat_result.stat.exists

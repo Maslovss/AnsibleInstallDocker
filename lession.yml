@@ -1,12 +1,37 @@
 ---
-- hosts: aws
+- hosts: aws2
   vars:
     - delete_docker: true
     - delete_docker_data: true
+    - install_docker: true
     - perform_reboot: true
-    - run_jenkins: true
-  roles:
-    - docker-remove
-    - docker-install
-#    - reboot_and_start_jenkins
+    - jenkins_run_container: true
+    - jenkins_image_name: "jenkins/jenkins:latest"
+    - jenkins_folder: "/var/jenkins"
+# roles:
+#   - docker-remove
+#   - docker-install
+#   - reboot_and_start_jenkins
+  tasks:
+    - name: Delete docker 
+      include_role:
+        name: docker-remove
+      when: delete_docker|bool == true
+
+    - name: Install docker
+      include_role:
+        name: docker-install
+      when: install_docker|bool == true
+
+    - name: Reboot servers
+      reboot:
+        reboot_timeout: 3600
+      when: perform_reboot|bool == true
+
+    - name: Install Jenkins
+      include_role:
+        name: start_jenkins
+      when: jenkins_run_container|bool == true
+
+
 
