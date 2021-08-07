@@ -1,4 +1,8 @@
 locals:
   hosts:
     localhost:
+aws:
+  hosts:
+    18.184.81.215:
+      ansible_user: ubuntu
 
