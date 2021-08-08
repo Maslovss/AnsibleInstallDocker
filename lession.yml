@@ -2,16 +2,13 @@
 - hosts: test
   vars:
     - delete_docker: true
-    - delete_docker_data: true
+    - delete_docker_data: false
     - install_docker: true
     - perform_reboot: true
     - jenkins_run_container: true
     - jenkins_image_name: "jenkins/jenkins:latest"
     - jenkins_folder: "/var/jenkins"
-# roles:
-#   - docker-remove
-#   - docker-install
-#   - reboot_and_start_jenkins
+
   tasks:
     - name: Delete docker 
       include_role:
@@ -39,5 +36,4 @@
 
     - debug:
         msg: 'Docker version is: {{  result_docker_version.stdout }}'
-
 
