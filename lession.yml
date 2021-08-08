@@ -1,5 +1,5 @@
 ---
-- hosts: aws
+- hosts: test
   vars:
     - delete_docker: true
     - delete_docker_data: true
@@ -33,5 +33,11 @@
         name: start_jenkins
       when: jenkins_run_container|bool == true
 
+    - name: Check docker version
+      command: "docker --version"
+      register: result_docker_version
+
+    - debug:
+        msg: 'Docker version is: {{  result_docker_version.stdout }}'
 
 

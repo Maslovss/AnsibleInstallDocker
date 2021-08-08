@@ -8,16 +8,15 @@
 
 - name: Install
   apt:
-    name: "{{ packages }}"
-    state: latest
-  vars:
-    packages:
+    name: 
       - apt-transport-https
       - ca-certificates
       - curl 
       - gnupg 
       - lsb-release
-      - pip
+      - python3-pip 
+    state: latest
+    update_cache: yes
 
 - name: Add Docker GPG apt Key
   apt_key:
@@ -59,7 +58,6 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-
 
 - name: Install Docker compose
   shell: curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose

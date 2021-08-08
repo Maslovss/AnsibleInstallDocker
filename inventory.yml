@@ -1,16 +1,34 @@
-locals:
+all:
   hosts:
+
     localhost:
-aws:
-  hosts:
+
     aws-web:
       ansible_host: 18.184.81.215
       ansible_user: ubuntu
-#   aws2:
-#     ansible_host: 52.59.203.6
-#     ansible_user: ec2-user
-#     ansible_ssh_private_key_file: ~/.aws/maslovss-yahoo.pem
-    aws3:
-      ansible_host: 18.196.121.51
+      
+    aws-redhat: 
+      ansible_host: 3.126.139.243
+      ansible_user: ec2-user
+      ansible_ssh_private_key_file: ~/.aws/maslovss-yahoo.pem
+
+    aws-ubuntu:
+      ansible_host: 52.29.47.213
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.aws/maslovss-yahoo.pem
+
+locals:
+  hosts:
+    localhost:
+
+aws:
+  hosts:
+    aws-web:
+    aws-redhat:
+    aws-ubuntu:
+
+test:
+  hosts:
+    aws-redhat:
+    aws-ubuntu:
+
